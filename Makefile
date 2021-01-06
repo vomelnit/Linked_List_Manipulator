@@ -10,13 +10,6 @@ SRC        = $(SRC_DIR)/main.c \
 	     $(SRC_DIR)/file_processing.c \
 	     $(SRC_DIR)/linked_list.c\
 
-#OBJ        = main.o \
-#             interface.o \
-#             error_handling.o \
-#             file_processing.o \
-#             linked_list.o\
-
-
 OBJ = $(SRC:.c=.o)
 
 INCLUDES  = ./inc
