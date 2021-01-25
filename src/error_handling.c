@@ -9,8 +9,8 @@ error_handler (error_handle_t error, bool is_error_critical) {
         printf ("No error.\n");
         break;
 
-    case FILENAME_NOT_SPECIFIED:
-        printf ("File's name must be specify.\n");
+    case TOO_MANY_ARG_IN_MAIN:
+        printf ("Too many arguments. Specify only filename.\n");
         printf ("Example: $[program name] [filename]\n");
         break;
 
@@ -88,8 +88,16 @@ error_handler (error_handle_t error, bool is_error_critical) {
         printf ("Sorting value is unknown.\n");
         break;
 
+    case UNKNOWN_ERROR:
+        printf ("Unknown error.\n");
+        break;
+
+    case FILENAME_TOO_LONG:
+        printf ("Entered filename is too long.\n");
+        break;
+
     default:
-        printf ("Unknown error\n");
+        printf ("Unknown error.\n");
         return;
     }
 

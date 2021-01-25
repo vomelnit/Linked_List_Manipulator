@@ -129,8 +129,9 @@ execute_main_menu_entered_cmd(char *entered_str, node **head){
     }
     if ((strcmp(entered_str,"exit") == 0)) return 1; /* TODO: rewrite return 1*/
     if ((strlen(entered_str) != 1) ||
-        ((entered_str[0] < 48 || entered_str[0] > 57)))
-        return WRONG_CMD_ENTERED;
+        ((entered_str[0] < 48 || entered_str[0] > 57))){
+            return WRONG_CMD_ENTERED;
+    }
 
         switch (entered_str[0]) {
 

@@ -1,17 +1,31 @@
 #include <unistd.h>
 #include "interface.h"
 
+#define DEFAULT_FILENAME "list.txt"
+#define FILENAME_MAX_LENGTH 100
+
 int
 main (int argc, char *argv[]) {
 
     FILE *list_data_file;
     node *head = NULL;
+    char *filename_for_list_data =  calloc (FILENAME_MAX_LENGTH, sizeof(char));
 
-    if (argc != 2){
-        error_handler (FILENAME_NOT_SPECIFIED, CRITICAL);
+    if (argc > 2){
+        error_handler (TOO_MANY_ARG_IN_MAIN, CRITICAL);
+    } else if (argc == 1){
+        filename_for_list_data = DEFAULT_FILENAME;
+        printf("Dafault filename '%s' was choosen.\n", DEFAULT_FILENAME);
+    } else if (argc == 2){
+        if ( strlen(argv[1]) > FILENAME_MAX_LENGTH )
+            error_handler (FILENAME_TOO_LONG, CRITICAL);
+        filename_for_list_data = argv[1];
+    } else {
+        printf("Something wrong with argc\n");
+        error_handler (UNKNOWN_ERROR, CRITICAL);
     }
 
-    char *filename_for_list_data = argv[1];
+
 
     if (is_file_exist (filename_for_list_data)) {
         if ( (access (filename_for_list_data, R_OK) != 0) ||

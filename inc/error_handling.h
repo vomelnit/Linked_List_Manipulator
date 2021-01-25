@@ -7,7 +7,7 @@
 
 typedef enum {
     NO_ERROR,
-    FILENAME_NOT_SPECIFIED,
+    TOO_MANY_ARG_IN_MAIN,
     FILE_PERMISSIONS_ERR,
     FILE_OPEN_ERROR,
     FILE_CREATION_ERR,
@@ -24,7 +24,9 @@ typedef enum {
     FILE_STAT_ERR,
     WRITE_TO_FILE_ERR,
     VALUE_IS_NOT_NUMBER,
-    UNKNOWN_SORT_BY_VALUE
+    UNKNOWN_SORT_BY_VALUE,
+    FILENAME_TOO_LONG,
+    UNKNOWN_ERROR
 } error_handle_t;
 
 typedef enum {NON_CRITICAL = 0, CRITICAL = 1} is_critical_t;
