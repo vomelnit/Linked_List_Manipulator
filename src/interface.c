@@ -31,7 +31,7 @@ exit_routine (char *filename, node *head){
     printf ("Program is closing...\n");
     if (delete_entire_list(head))
         error_handler(LIST_DEALLOCATION_ERR, NON_CRITICAL);
-
+    free (head);
     exit (EXIT_SUCCESS);
 }
 

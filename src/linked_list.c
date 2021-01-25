@@ -2,12 +2,13 @@
 
 inline void
 print_list (node *head) {
-    node *ptr = head;
+    node *current_node = head;
     printf ("\n====LIST====\n");
     //start from the beginning
-    while(NULL != ptr) {
-        printf ("(%d,%d,%s)\n",ptr->id, ptr->years, ptr->name);
-        ptr = ptr->next;
+    while(NULL != current_node) {
+        printf ("(%d,%d,%s)\n",current_node->id, current_node->years,
+                               current_node->name);
+        current_node = current_node->next;
     }
     printf ("============\n");
 }
