@@ -44,4 +44,6 @@ void    reverse_list              (node** head_ref);
 //Get linked list elemnts as char**
 char**  get_list_as_string_array  (node *head);
 
+int     delete_entire_list        (node *head);
+
 #endif

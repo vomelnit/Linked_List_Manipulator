@@ -29,6 +29,9 @@ exit_routine (char *filename, node *head){
     save_list_to_file (filename, head);
     printf ("List was saved into file '%s'.\n", filename);
     printf ("Program is closing...\n");
+    if (delete_entire_list(head))
+        error_handler(LIST_DEALLOCATION_ERR, NON_CRITICAL);
+
     exit (EXIT_SUCCESS);
 }
 

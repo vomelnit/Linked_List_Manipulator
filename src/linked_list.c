@@ -12,6 +12,18 @@ print_list (node *head) {
     printf ("============\n");
 }
 
+int
+delete_entire_list (node *head) {
+    node *current_node = head;
+    node *node_to_deallocate;
+    while(NULL != current_node) {
+        node_to_deallocate = current_node;
+        current_node = current_node->next;
+        free (node_to_deallocate);
+    }
+    return 0;
+}
+
 void
 insert_first_to_list (node **head, int id, int years, char *name) {
     //create a link

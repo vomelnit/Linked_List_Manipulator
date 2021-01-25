@@ -95,6 +95,10 @@ error_handler (error_handle_t error, bool is_error_critical) {
     case FILENAME_TOO_LONG:
         printf ("Entered filename is too long.\n");
         break;
+        
+    case LIST_DEALLOCATION_ERR:
+        printf ("Error while linked list deallocation.\n");
+        break;
 
     default:
         printf ("Unknown error.\n");

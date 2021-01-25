@@ -26,6 +26,7 @@ typedef enum {
     VALUE_IS_NOT_NUMBER,
     UNKNOWN_SORT_BY_VALUE,
     FILENAME_TOO_LONG,
+    LIST_DEALLOCATION_ERR,
     UNKNOWN_ERROR
 } error_handle_t;
 
