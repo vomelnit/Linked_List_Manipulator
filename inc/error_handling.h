@@ -1,11 +1,11 @@
 #ifndef ERROR_HANDLING_H
-  #define ERROR_HANDLING_H
+#define ERROR_HANDLING_H
 
-  #include <stdbool.h>
-  #include <stdio.h>
-  #include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-  typedef enum {
+typedef enum {
     NO_ERROR,
     FILENAME_NOT_SPECIFIED,
     FILE_PERMISSIONS_ERR,
@@ -25,11 +25,11 @@
     WRITE_TO_FILE_ERR,
     VALUE_IS_NOT_NUMBER,
     UNKNOWN_SORT_BY_VALUE
-  } error_handle_t;
+} error_handle_t;
 
-   typedef enum {NON_CRITICAL = 0, CRITICAL = 1} is_critical_t;
+typedef enum {NON_CRITICAL = 0, CRITICAL = 1} is_critical_t;
 
-  void  error_handler  (error_handle_t error,
-                        bool is_error_critical);
+void  error_handler  (error_handle_t error,
+                      bool is_error_critical);
 
 #endif
