@@ -2,7 +2,10 @@
 
 inline void
 error_handler (error_handle_t error, bool is_error_critical) {
+    if (is_error_critical) printf("\033[31;1m");
+    else printf("\033[33;1m");
     printf ("ERROR HANDLER::");
+
     switch (error) {
 
     case NO_ERROR:
@@ -95,7 +98,7 @@ error_handler (error_handle_t error, bool is_error_critical) {
     case FILENAME_TOO_LONG:
         printf ("Entered filename is too long.\n");
         break;
-        
+
     case LIST_DEALLOCATION_ERR:
         printf ("Error while linked list deallocation.\n");
         break;
@@ -105,5 +108,6 @@ error_handler (error_handle_t error, bool is_error_critical) {
         return;
     }
 
+    printf("\033[0m");
     if (is_error_critical) exit (EXIT_FAILURE);
 }
