@@ -1,9 +1,14 @@
+
+/****************************************************************************
+*   INCLUDES
+****************************************************************************/
 #include "error_handling.h"
 
 inline void
 error_handler (error_handle_t error, bool is_error_critical) {
-    if (is_error_critical) printf("\033[31;1m");
-    else printf("\033[33;1m");
+
+    if (is_error_critical) printf("\033[31;1m"); /*Red color*/
+    else printf("\033[33;1m"); /*Yellow color*/
     printf ("ERROR HANDLER::");
 
     switch (error) {
@@ -52,15 +57,17 @@ error_handler (error_handle_t error, bool is_error_critical) {
 
     case ROW_DISMATCH_PATTERN:
         printf ("Row doesn't match pattern of data.\n");
-        printf ("Must be '(<id>,<years>,<name>)'\n");
+        printf ("Must be '(id,years,name)'\n");
+        printf ("For ins. (1,22,Yulia)\n");
         printf ("Hint: Last row in file must be filled (no empty line)\n");
         break;
 
     case ROW_ELEMENTS_DISMATCH:
         printf ("Row elements doesn't match pattern of data.\n");
-        printf ("Must be '(<id>,<years>,<name>)'\n");
-        printf ("<id> is number\n<years> is number\n");
-        printf ("<name> is string of alphabetical symbols'\n");
+        printf ("Must be (id,years,name)\n");
+        printf ("'id' is number\n'years' is number\n");
+        printf ("'name' is string of alphabetical symbols'\n");
+        printf ("For ins. (3,52,Oleg)\n");
         break;
 
     case TOO_MANY_ARG_IN_ROW:

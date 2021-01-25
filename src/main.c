@@ -1,6 +1,14 @@
+
+/****************************************************************************
+*   INCLUDES
+****************************************************************************/
 #include <unistd.h>
 #include "interface.h"
 
+
+/****************************************************************************
+*   DEFINES
+****************************************************************************/
 #define DEFAULT_FILENAME "list.txt"
 #define FILENAME_MAX_LENGTH 100
 
@@ -24,8 +32,6 @@ main (int argc, char *argv[]) {
         printf("Something wrong with argc\n");
         error_handler (UNKNOWN_ERROR, CRITICAL);
     }
-
-
 
     if (is_file_exist (filename_for_list_data)) {
         if ( (access (filename_for_list_data, R_OK) != 0) ||

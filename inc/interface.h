@@ -1,8 +1,14 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+/****************************************************************************
+*   INCLUDES
+****************************************************************************/
 #include "file_processing.h"
 
+/****************************************************************************
+*   DECLARATIONS
+****************************************************************************/
 void  custom_fflush_stdin               ();
 
 void  print_help_info                   ();
@@ -20,4 +26,4 @@ int  get_id_and_find_element_by_id      (node **head);
 int  execute_main_menu_entered_cmd      (char *entered_str,
                                          node **head);
 
-#endif
+#endif /* INTERFACE_H */

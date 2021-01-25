@@ -1,3 +1,7 @@
+
+/****************************************************************************
+*   INCLUDES
+****************************************************************************/
 #include "interface.h"
 
 void
@@ -63,7 +67,7 @@ insert_element_into_list_routine(node **head){
     int  symbol_number = 0;
     char *entered_row = calloc(entered_row_size, sizeof(char));
 
-    printf ("Enter row using format '(<id>,<years>,<name>)':\n");
+    printf ("Enter row using format (id,years,name):\n");
 
     if (entered_row == NULL)
         error_handler(MEMORY_ALLOCATION_ERR, CRITICAL);

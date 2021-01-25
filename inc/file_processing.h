@@ -1,13 +1,22 @@
 #ifndef FILE_PROCESSING_H
 #define FILE_PROCESSING_H
 
+/****************************************************************************
+*   INCLUDES
+****************************************************************************/
 #include "linked_list.h"
 #include <sys/stat.h>
 
-#define NODE_VALUE_NUMBER 3
+/****************************************************************************
+ *  DEFINES
+ ****************************************************************************/
+#define NODE_VALUE_NUMBER 3 /**< Quantity of elements to read while insertion. */
 
 typedef enum {FALSE = 0, TRUE} boolean;
 
+/****************************************************************************
+ *  DECLARATIONS
+ ****************************************************************************/
 bool      is_file_exist                         (char *filename);
 
 long int  get_size_of_file                      (char *filename);
@@ -37,4 +46,4 @@ void      convert_rows_to_linked_list           (node **head,
                                                  char **rows);
 
 
-#endif
+#endif  /* FILE_PROCESSING_H */
