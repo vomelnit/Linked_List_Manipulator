@@ -21,11 +21,11 @@ bool      is_file_exist                         (char *filename);
 
 long int  get_size_of_file                      (char *filename);
 
-void      put_list_arr_into_file                (char *filename_for_list_data,
+int       put_list_arr_into_file                (char *filename_for_list_data,
                                                  char **row_arr,
                                                  int row_arr_size);
 
-void      save_list_to_file                     (char *filename_for_list_data,
+int       save_list_to_file                     (char *filename_for_list_data,
                                                  node *head);
 
 char**    get_array_of_rows_from_file           (FILE *file);
@@ -39,10 +39,10 @@ bool      check_if_str_consist_of_alphabets     (char *str);
 
 bool      check_if_row_values_match             (char **values);
 
-void      insert_row_values_into_linked_list    (node **head,
-                                                 char **values);
+// void      insert_row_values_into_linked_list    (node **head,
+//                                                  char **values);
 
-void      convert_rows_to_linked_list           (node **head,
+int       convert_rows_to_linked_list           (node **head,
                                                  char **rows);
 
 

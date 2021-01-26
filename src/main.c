@@ -12,11 +12,8 @@
 #define DEFAULT_FILENAME "list.txt"
 #define FILENAME_MAX_LENGTH 100
 
-int
-main (int argc, char *argv[]) {
-
-    FILE *list_data_file;
-    node *head = NULL;
+char*
+get_filename_for_list_data(int argc, char **argv){
     char *filename_for_list_data =  calloc (FILENAME_MAX_LENGTH, sizeof(char));
 
     if (argc > 2){
@@ -32,44 +29,76 @@ main (int argc, char *argv[]) {
         printf("Something wrong with argc\n");
         error_handler (UNKNOWN_ERROR, CRITICAL);
     }
+    return filename_for_list_data;
+}
 
-    if (is_file_exist (filename_for_list_data)) {
-        if ( (access (filename_for_list_data, R_OK) != 0) ||
-             (access (filename_for_list_data, R_OK) != 0)){
-             error_handler (FILE_PERMISSIONS_ERR, CRITICAL);
-        }
+int
+init_linked_list_from_file (char *filename, node **head){
+    FILE *list_data_file;
+    int   result = 0;
 
-        list_data_file = fopen (filename_for_list_data, "r");
-        if (list_data_file == NULL) error_handler (FILE_OPEN_ERROR, CRITICAL);
-
-        printf ("File '%s' was opened.\n", filename_for_list_data);
-
-        char ** file_rows = get_array_of_rows_from_file (list_data_file);
-        convert_rows_to_linked_list (&head, file_rows);
-        free (file_rows);
-    } else {
-        error_handler (NO_SPECIFIED_FILE, NON_CRITICAL);
-        list_data_file = fopen (filename_for_list_data, "w");
-        if (list_data_file == NULL) error_handler (FILE_CREATION_ERR, CRITICAL);
-        else printf ("File '%s' was created.\n", filename_for_list_data);
+    if ( (access (filename, R_OK) != 0) ||
+         (access (filename, R_OK) != 0)){
+         return FILE_PERMISSIONS_ERR;
     }
+
+    list_data_file = fopen (filename, "r");
+    if (list_data_file == NULL) return FILE_OPEN_ERROR;
+
+    printf ("File '%s' was opened.\n", filename);
+
+    char ** file_rows = get_array_of_rows_from_file (list_data_file);
+    result = convert_rows_to_linked_list (head, file_rows);
+    if (result) error_handler(UNKNOWN_ERROR, CRITICAL);
+    free (file_rows);
     fclose (list_data_file);
 
+    return NO_ERROR;
+}
+
+int
+create_file_for_linked_list (char *filename){
+    FILE *list_data_file;
+
+    list_data_file = fopen (filename, "w");
+    if (list_data_file == NULL) return FILE_CREATION_ERR;
+    else printf ("File '%s' was created.\n", filename);
+
+    fclose (list_data_file);
+    return NO_ERROR;
+}
+
+int
+print_intial_info(node * head){
+    int return_result = 0;
     printf ("Current List:");
-    print_list (head);
+    return_result = print_list (head);
     printf ("\nEnter 'h' or 'help' to see command interface.\n");
     printf ("---------------------------------------------\n");
     printf ("Enter command: ");
+    return return_result;
+}
 
-    int   entered_str_size = 5;
-    char  *entered_str = calloc (entered_str_size, sizeof (char));
-    int   ch;
-    int   symbol_number = 0;
+int main_menu_cmd_processing(char *cmd, node **head, char *filename){
     int   cmd_result = 0;
 
-    while (EOF != (ch = getchar ())) {
-        if ('\n' != ch ){
-            entered_str[symbol_number] = ch;
+    cmd_result = execute_main_menu_entered_cmd (cmd, head, filename);
+    //if (cmd_result == 1) exit_routine (filename, *head);
+    if      (cmd_result == WRONG_CMD_ENTERED) return WRONG_CMD_ENTERED;
+    else if (cmd_result == CMD_EXEC_WRONG) return CMD_EXEC_WRONG;
+    else     return NO_ERROR;
+}
+
+int main_app_loop (node **head, char *filename_for_list_data){
+    int   entered_str_size      = 5;
+    char *entered_str           = calloc (entered_str_size, sizeof (char));
+    int   character_from_stdin;
+    int   symbol_number         = 0;
+    int   return_result         = 0;
+
+    while (EOF != (character_from_stdin = getchar ())) {
+        if ('\n' != character_from_stdin ){
+            entered_str[symbol_number] = character_from_stdin;
             symbol_number++;
             if (symbol_number >= entered_str_size) {
                 error_handler (CMD_TOO_LONG, NON_CRITICAL);
@@ -81,13 +110,36 @@ main (int argc, char *argv[]) {
         } else {
             entered_str[symbol_number] = '\0';
             symbol_number = 0;
-            cmd_result = execute_main_menu_entered_cmd (entered_str, &head);
-            if (cmd_result == 1) exit_routine (filename_for_list_data, head);
-            else if (cmd_result == WRONG_CMD_ENTERED) error_handler (WRONG_CMD_ENTERED, NON_CRITICAL);
-            else if (cmd_result == CMD_EXEC_WRONG) error_handler (CMD_EXEC_WRONG, NON_CRITICAL);
-
+            return_result = main_menu_cmd_processing(entered_str,
+                                                     head,
+                                                     filename_for_list_data);
+            if (return_result) error_handler (return_result, NON_CRITICAL);
             printf ("Enter command: ");
         }
-  }
-  return 0;
+    } /* while EOF != getchar ()*/
+    return MAIN_LOOP_ERROR;
+}
+
+int
+main (int argc, char *argv[]) {
+
+    node  *head = NULL;
+    int    return_result = 0;
+    char * filename_for_list_data = get_filename_for_list_data(argc, argv);
+
+
+    if (is_file_exist (filename_for_list_data)) {
+        return_result = init_linked_list_from_file (filename_for_list_data,&head);
+        if (return_result) error_handler(return_result, CRITICAL);
+    } else {
+        return_result = create_file_for_linked_list(filename_for_list_data);
+        if (return_result) error_handler(return_result, CRITICAL);
+    }
+
+    if (print_intial_info (head)) error_handler(UNKNOWN_ERROR, NON_CRITICAL);
+
+    return_result = main_app_loop(&head, filename_for_list_data);
+    if (return_result) error_handler(return_result, CRITICAL);
+
+  exit(EXIT_FAILURE);
 }

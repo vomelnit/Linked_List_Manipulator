@@ -30,7 +30,9 @@ print_help_info () {
 
 void
 exit_routine (char *filename, node *head){
-    save_list_to_file (filename, head);
+    int result = 0;
+    result = save_list_to_file (filename, head);
+    if (result) error_handler(UNKNOWN_ERROR, CRITICAL);
     printf ("List was saved into file '%s'.\n", filename);
     printf ("Program is closing...\n");
     if (delete_entire_list(head))
@@ -41,6 +43,7 @@ exit_routine (char *filename, node *head){
 
 int
 insert_entered_row_to_linked_list(node **head, char *row){
+    int result = 0;
     if (row == NULL) return CMD_EXEC_WRONG;
     if ( (row[0] != '(') ||
        ((strstr(row, ")\r\n") - row) != strlen(row)-3)) {
@@ -55,17 +58,18 @@ insert_entered_row_to_linked_list(node **head, char *row){
         return ROW_ELEMENTS_DISMATCH;
     }
 
-    insert_first_to_list (head, atoi(row_values[0]),
-                          atoi(row_values[1]), row_values[2]);
-    return 0;
+    result = insert_first_to_list (head, atoi(row_values[0]),
+                                   atoi(row_values[1]), row_values[2]);
+    if (result) return UNKNOWN_ERROR;
+    return NO_ERROR;
 }
 
 int
 insert_element_into_list_routine(node **head){
-    int  character;
-    int  entered_row_size = 200;
-    int  symbol_number = 0;
-    char *entered_row = calloc(entered_row_size, sizeof(char));
+    int   character;
+    int   entered_row_size = 200;
+    int   symbol_number    = 0;
+    char *entered_row      = calloc(entered_row_size, sizeof(char));
 
     printf ("Enter row using format (id,years,name):\n");
 
@@ -93,13 +97,14 @@ insert_element_into_list_routine(node **head){
 
 int
 get_id_and_find_element_by_id (node **head) {
-    int  character;
-    int  entered_row_size = 10;
-    int  symbol_number = 0;
-    char *entered_row = calloc(entered_row_size, sizeof(char));
+    int   character;
+    int   entered_row_size = 10;
+    int   symbol_number    = 0;
+    char *entered_row      = calloc(entered_row_size, sizeof(char));
 
     if (NULL == entered_row) error_handler(MEMORY_ALLOCATION_ERR, CRITICAL);
 
+    printf("Enter id: ");
     while ( (EOF != (character = getchar())) &&
           ('\n' != character )) {
         entered_row[symbol_number] = character;
@@ -124,34 +129,36 @@ get_id_and_find_element_by_id (node **head) {
         error_handler (VALUE_IS_NOT_NUMBER, NON_CRITICAL);
         return VALUE_IS_NOT_NUMBER;
     }
-    return 0;
+    return NO_ERROR;
 }
 
 int
-execute_main_menu_entered_cmd(char *entered_str, node **head){
+execute_main_menu_entered_cmd(char *entered_str, node **head, char *filename){
+    int result = 0;
+
     if( (0 == strcmp(entered_str,"help")) ||
         (0 == strcmp(entered_str,"h"))) {
             print_help_info ();
-            return 0;
+            return NO_ERROR;
     }
-    if ((strcmp(entered_str,"exit") == 0)) return 1; /* TODO: rewrite return 1*/
+    if ((strcmp(entered_str,"exit") == 0)) exit_routine (filename, *head);
     if ((strlen(entered_str) != 1) ||
         ((entered_str[0] < 48 || entered_str[0] > 57))){
             return WRONG_CMD_ENTERED;
     }
 
-        switch (entered_str[0]) {
+        switch ((int)entered_str[0]) {
 
-        case '1':
+        case PRINT_LIST:
             print_list (*head);
             break;
 
-        case '2':
+        case INSERT_ELEMENT_ON_TOP:
             if (insert_element_into_list_routine(head) != 0)
                 return CMD_EXEC_WRONG;
             break;
 
-        case '3': {
+        case DELETE_ELEMENT_FROM_TOP: {
             node *deleted_node = delete_and_get_first_in_list (head);
             printf ("Deleted value:");
             printf ("(%d,%d,%s)\n",
@@ -162,37 +169,41 @@ execute_main_menu_entered_cmd(char *entered_str, node **head){
             break;
         }
 
-        case '4':
-        if (get_id_and_find_element_by_id (head) != 0)
+        case FIND_ELEMENT_BY_ID:
+            if (get_id_and_find_element_by_id (head) != 0)
             return CMD_EXEC_WRONG;
-        break;
-
-        case '5':
-            sort_list (*head, SORT_BY_ID);
-            printf ("Sorting by id was done.\n");
             break;
 
-        case '6':
-            sort_list (*head, SORT_BY_YEARS);
-            printf ("Sorting by years was done.\n");
+        case SORT_LIST_BY_ID:
+            result = sort_list (*head, SORT_BY_ID);
+            if (result) error_handler(result, NON_CRITICAL);
+            else printf ("Sorting by id was done.\n");
             break;
 
-        case '7':
-            sort_list (*head, SORT_BY_NAME);
-            printf ("Sorting by name was done.\n");
+        case SORT_LIST_BY_YEARS:
+            result = sort_list (*head, SORT_BY_YEARS);
+            if (result) error_handler(result, NON_CRITICAL);
+            else printf ("Sorting by years was done.\n");
             break;
 
-        case '8':
+        case SORT_LIST_BY_NAME:
+            result = sort_list (*head, SORT_BY_NAME);
+            if (result) error_handler(result, NON_CRITICAL);
+            else printf ("Sorting by name was done.\n");
+            break;
+
+        case PRINT_LIST_LENGTH:
             printf ("List length: %d\n",get_list_length (*head));
             break;
 
-        case '9':
-            reverse_list (head);
-            printf ("List reversed\n");
+        case REVERSE_LIST:
+            result = reverse_list (head);
+            if (result) error_handler(result, NON_CRITICAL);
+            else printf ("List reversed\n");
             break;
 
         default:
             return WRONG_CMD_ENTERED;
         }
-    return 0;
+    return NO_ERROR;
 }

@@ -98,16 +98,24 @@ error_handler (error_handle_t error, bool is_error_critical) {
         printf ("Sorting value is unknown.\n");
         break;
 
-    case UNKNOWN_ERROR:
-        printf ("Unknown error.\n");
-        break;
-
     case FILENAME_TOO_LONG:
         printf ("Entered filename is too long.\n");
         break;
 
     case LIST_DEALLOCATION_ERR:
         printf ("Error while linked list deallocation.\n");
+        break;
+
+    case STDIN_EOF_ERR:
+        printf ("Error while getchar from stdin in main loop.\n");
+        break;
+
+    case MAIN_LOOP_ERROR:
+        printf ("Error: exit from main loop.\n");
+        break;
+
+    case UNKNOWN_ERROR:
+        printf ("Unknown error.\n");
         break;
 
     default:

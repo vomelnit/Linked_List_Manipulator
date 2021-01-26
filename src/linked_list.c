@@ -3,7 +3,7 @@
 ****************************************************************************/
 #include "linked_list.h"
 
-inline void
+inline int
 print_list (node *head) {
     node *current_node = head;
     printf ("\n====LIST====\n");
@@ -14,6 +14,8 @@ print_list (node *head) {
         current_node = current_node->next;
     }
     printf ("============\n");
+
+    return NO_ERROR;
 }
 
 int
@@ -25,10 +27,10 @@ delete_entire_list (node *head) {
         current_node = current_node->next;
         free (node_to_deallocate);
     }
-    return 0;
+    return NO_ERROR;
 }
 
-void
+int
 insert_first_to_list (node **head, int id, int years, char *name) {
     //create a link
     node *link = (node*) malloc (sizeof(struct node));
@@ -44,6 +46,7 @@ insert_first_to_list (node **head, int id, int years, char *name) {
     link->next = *head;
     //point first to new first node
     *head = link;
+    return NO_ERROR;
 }
 
 //delete first item
@@ -129,7 +132,7 @@ delete_and_get_node_by_id (node **head, int id) {
     return current;
 }
 
-void
+int
 sort_list (node *head, int sort_by) {
     int  i;
     int  j;
@@ -141,7 +144,7 @@ sort_list (node *head, int sort_by) {
     node *next;
     bool compare_result = 0;
 
-    if (NULL == head) error_handler (LINKED_LIST_IS_EMPTY, NON_CRITICAL);
+    if (NULL == head) return LINKED_LIST_IS_EMPTY;
 
     int size = get_list_length (head);
     k = size ;
@@ -159,7 +162,7 @@ sort_list (node *head, int sort_by) {
             else if (sort_by == SORT_BY_NAME)
                 compare_result = strcmp(current->name, next->name) > 0;
             else
-                error_handler (UNKNOWN_SORT_BY_VALUE, NON_CRITICAL);
+                return UNKNOWN_SORT_BY_VALUE;
 
             if (compare_result) {
                 tempId = current->id;
@@ -179,16 +182,17 @@ sort_list (node *head, int sort_by) {
             next    = next->next;
         }
     }
+    return NO_ERROR;
 }
 
-void
+int
 reverse_list (node** head_ref) {
     node* prev    = NULL;
     node* current = *head_ref;
     node* next;
 
     if (NULL == head_ref)
-        error_handler (LINKED_LIST_IS_EMPTY, NON_CRITICAL);
+        return LINKED_LIST_IS_EMPTY;
 
     while (NULL != current) {
         next          = current->next;
@@ -198,6 +202,7 @@ reverse_list (node** head_ref) {
     }
 
     *head_ref = prev;
+    return NO_ERROR;
 }
 
 char**

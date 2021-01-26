@@ -41,9 +41,9 @@ typedef struct node
 } node;
 
 //Print list items into stdout
-void    print_list                      (node *head);
+int     print_list                      (node *head);
 //Insert item at begin
-void    insert_first_to_list            (node **head,
+int     insert_first_to_list            (node **head,
                                          int id,
                                          int years,
                                          char *name);
@@ -60,10 +60,10 @@ node*   get_node_by_id                  (node *head,
 node*   delete_and_get_node_by_id       (node **head,
                                          int id);
 //Sort sist
-void    sort_list                       (node *head,
+int     sort_list                       (node *head,
                                          int sort_by);
 //Reverse the list
-void    reverse_list                    (node** head_ref);
+int     reverse_list                    (node** head_ref);
 //Get linked list elemnts as char**
 char**  get_list_as_string_array        (node *head);
 

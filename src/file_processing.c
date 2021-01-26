@@ -19,27 +19,32 @@ get_size_of_file (char *filename) {
     return buffer.st_size;
 }
 
-void
+int
 put_list_arr_into_file (char *filename_for_list_data,
                         char **row_arr,
                         int row_arr_size) {
     FILE *file = fopen (filename_for_list_data, "w");
     if (NULL == file)
-        error_handler (FILE_OPEN_ERROR, CRITICAL);
+        return FILE_OPEN_ERROR;
     for (int i = 0; i < row_arr_size; i++) {
         if (!fputs(row_arr[i], file))
-            error_handler (WRITE_TO_FILE_ERR, CRITICAL);
+            return WRITE_TO_FILE_ERR;
     }
     fclose (file);
+    return NO_ERROR;
 }
 
-void
+int
 save_list_to_file (char *filename_for_list_data, node *head) {
+    int result = 0;
     char **entire_list_array_as_strings = get_list_as_string_array (head);
-    put_list_arr_into_file (filename_for_list_data,
-                            entire_list_array_as_strings,
-                            get_list_length (head));
+    result = put_list_arr_into_file (filename_for_list_data,
+                                     entire_list_array_as_strings,
+                                     get_list_length (head));
+    if (result) error_handler (result, CRITICAL);
     free (entire_list_array_as_strings);
+
+    return NO_ERROR;
 }
 
 char**
@@ -86,7 +91,7 @@ get_values_from_file_row (char *row, is_critical_t is_error_critical){
         if (NULL == values[k])
             error_handler (MEMORY_ALLOCATION_ERR, CRITICAL);
     }
-    int j = 1;
+    unsigned int j = 1;
     int value_index = 0;
     int value_symbol_index = 0;
 
@@ -121,7 +126,8 @@ get_values_from_file_row (char *row, is_critical_t is_error_critical){
 
 inline bool
 check_if_str_consist_of_digits (char *string) {
-    for (int i = 0; i < strlen( string ); i++) {
+    unsigned int i;
+    for (i = 0; i < strlen( string ); i++) {
     if (string[i] < 48 || string[i] > 57) return FALSE;
     }
     return TRUE;
@@ -129,7 +135,8 @@ check_if_str_consist_of_digits (char *string) {
 
 inline bool
 check_if_str_consist_of_alphabets(char *str){
-    for(int i = 0; i < strlen(str); i ++){
+    unsigned int i;
+    for(i = 0; i < strlen(str); i ++){
         if ((str[i] >= 'a' && str[i] <= 'z') ||
             (str[i] >= 'A' && str[i] <= 'Z') ||
             (str[i] == ' '))
@@ -150,14 +157,15 @@ check_if_row_values_match (char **values) {
     return result;
 }
 
-void
-insert_row_values_into_linked_list (node **head, char **values) {
-    insert_first_to_list (head, atoi(values[0]), atoi(values[1]), values[2]);
-}
+// void
+// insert_row_values_into_linked_list (node **head, char **values) {
+//     insert_first_to_list (head, atoi(values[0]), atoi(values[1]), values[2]);
+// }
 
-void
+int
 convert_rows_to_linked_list (node **head, char **rows){
     int i = 0;
+    int result = 0;
     while (NULL != rows[i]) {
         if ( ('(' != rows[i][0]) ||
              ((strstr(rows[i], ")\r\n") - rows[i]) != strlen(rows[i])-3)) {
@@ -173,9 +181,14 @@ convert_rows_to_linked_list (node **head, char **rows){
             error_handler (ROW_ELEMENTS_DISMATCH, CRITICAL);
         }
 
-        insert_first_to_list (head, atoi(row_values[0]),
-                              atoi(row_values[1]), row_values[2]);
+        result = insert_first_to_list (head, atoi(row_values[0]),
+                                       atoi(row_values[1]), row_values[2]);
+        if (result) error_handler(UNKNOWN_ERROR, CRITICAL);
         i++;
     }
-    reverse_list (head);
+
+    result = reverse_list (head);
+    if (result) error_handler (result, NON_CRITICAL);
+    
+    return NO_ERROR;
 }

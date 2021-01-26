@@ -40,6 +40,8 @@ typedef enum {
     UNKNOWN_SORT_BY_VALUE,          /**< Wrong 'list_sort_by' value. */
     FILENAME_TOO_LONG,              /**< Entered filename is too long. */
     LIST_DEALLOCATION_ERR,          /**< Error while linked list memory freeing. */
+    STDIN_EOF_ERR,                  /**< Error while getchar from stdin. */
+    MAIN_LOOP_ERROR,                /**< Error: main loop exit . */
     UNKNOWN_ERROR                   /**< For errors with unknown reasons. */
 } error_handle_t;
 
