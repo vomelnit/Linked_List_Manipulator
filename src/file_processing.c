@@ -213,11 +213,6 @@ check_if_row_values_match (char **values) {
     return result;
 }
 
-// void
-// insert_row_values_into_linked_list (node **head, char **values) {
-//     insert_first_to_list (head, atoi(values[0]), atoi(values[1]), values[2]);
-// }
-
 int
 convert_rows_to_linked_list (node **head, char **rows){
     int i = 0;

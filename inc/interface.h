@@ -8,6 +8,12 @@
 /****************************************************************************
 *   DECLARATIONS
 ****************************************************************************/
+
+/**
+ * @brief Enum that helps to identify entered commands in main menu.
+ *
+ * This enum was implemented in order to handle entered commands in main menu.
+ */
 enum Menu_commands{
     PRINT_LIST                = (int)'1',
     INSERT_ELEMENT_ON_TOP     = (int)'2',
