@@ -4,6 +4,62 @@
 ****************************************************************************/
 #include "file_processing.h"
 
+char*
+get_filename_for_list_data(int argc, char **argv){
+    char *filename_for_list_data =  calloc (FILENAME_MAX_LENGTH, sizeof(char));
+
+    if (argc > 2){
+        error_handler (TOO_MANY_ARG_IN_MAIN, CRITICAL);
+    } else if (argc == 1){
+        filename_for_list_data = DEFAULT_FILENAME;
+        printf("Dafault filename '%s' was choosen.\n", DEFAULT_FILENAME);
+    } else if (argc == 2){
+        if ( strlen(argv[1]) > FILENAME_MAX_LENGTH )
+            error_handler (FILENAME_TOO_LONG, CRITICAL);
+        filename_for_list_data = argv[1];
+    } else {
+        printf("Something wrong with argc\n");
+        error_handler (UNKNOWN_ERROR, CRITICAL);
+    }
+    return filename_for_list_data;
+}
+
+int
+init_linked_list_from_file (char *filename, node **head){
+    FILE *list_data_file;
+    int   result = 0;
+
+    if ( (access (filename, R_OK) != 0) ||
+         (access (filename, R_OK) != 0)){
+         return FILE_PERMISSIONS_ERR;
+    }
+
+    list_data_file = fopen (filename, "r");
+    if (list_data_file == NULL) return FILE_OPEN_ERROR;
+
+    printf ("File '%s' was opened.\n", filename);
+
+    char ** file_rows = get_array_of_rows_from_file (list_data_file);
+    result = convert_rows_to_linked_list (head, file_rows);
+    if (result) error_handler(UNKNOWN_ERROR, CRITICAL);
+    free (file_rows);
+    fclose (list_data_file);
+
+    return NO_ERROR;
+}
+
+int
+create_file_for_linked_list (char *filename){
+    FILE *list_data_file;
+
+    list_data_file = fopen (filename, "w");
+    if (list_data_file == NULL) return FILE_CREATION_ERR;
+    else printf ("File '%s' was created.\n", filename);
+
+    fclose (list_data_file);
+    return NO_ERROR;
+}
+
 inline bool
 is_file_exist (char *filename) {
     struct stat buffer;
@@ -189,6 +245,6 @@ convert_rows_to_linked_list (node **head, char **rows){
 
     result = reverse_list (head);
     if (result) error_handler (result, NON_CRITICAL);
-    
+
     return NO_ERROR;
 }

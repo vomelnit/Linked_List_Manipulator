@@ -4,38 +4,48 @@
 /****************************************************************************
 *   INCLUDES
 ****************************************************************************/
-#include "linked_list.h"
 #include <sys/stat.h>
+#include <unistd.h>
 
+#include "linked_list.h"
 /****************************************************************************
  *  DEFINES
  ****************************************************************************/
 #define NODE_VALUE_NUMBER 3 /**< Quantity of elements to read while insertion. */
-
-typedef enum {FALSE = 0, TRUE} boolean;
-
+#define DEFAULT_FILENAME "list.txt"
+#define FILENAME_MAX_LENGTH 100
 /****************************************************************************
  *  DECLARATIONS
  ****************************************************************************/
-bool      is_file_exist                         (char *filename);
+typedef enum {FALSE = 0, TRUE} boolean;
 
-long int  get_size_of_file                      (char *filename);
+ int      create_file_for_linked_list           (char  *filename);
 
-int       put_list_arr_into_file                (char *filename_for_list_data,
+ int      init_linked_list_from_file            (char  *filename,
+                                                 node **head);
+
+char*     get_filename_for_list_data            (int    argc,
+                                                 char **argv);
+
+bool      is_file_exist                         (char  *filename);
+
+long int  get_size_of_file                      (char  *filename);
+
+int       put_list_arr_into_file                (char  *filename_for_list_data,
                                                  char **row_arr,
-                                                 int row_arr_size);
+                                                 int    row_arr_size);
 
-int       save_list_to_file                     (char *filename_for_list_data,
-                                                 node *head);
+int       save_list_to_file                     (char  *filename_for_list_data,
+                                                 node  *head);
 
-char**    get_array_of_rows_from_file           (FILE *file);
+char**    get_array_of_rows_from_file           (FILE  *file);
 
-char**    get_values_from_file_row              (char *row,
+char**    get_values_from_file_row              (char  *row,
                                                  is_critical_t is_error_critical);
 
-bool      check_if_str_consist_of_digits        (char *string);
+bool      check_if_str_consist_of_digits        (char  *string);
 
-bool      check_if_str_consist_of_alphabets     (char *str);
+bool      check_if_str_consist_of_alphabets     (char  *str);
 
 bool      check_if_row_values_match             (char **values);
 
@@ -44,6 +54,5 @@ bool      check_if_row_values_match             (char **values);
 
 int       convert_rows_to_linked_list           (node **head,
                                                  char **rows);
-
 
 #endif  /* FILE_PROCESSING_H */

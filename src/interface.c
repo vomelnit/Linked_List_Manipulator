@@ -4,6 +4,57 @@
 ****************************************************************************/
 #include "interface.h"
 
+int
+print_intial_info(node * head){
+    int return_result = 0;
+    printf ("Current List:");
+    return_result = print_list (head);
+    printf ("\nEnter 'h' or 'help' to see command interface.\n");
+    printf ("---------------------------------------------\n");
+    printf ("Enter command: ");
+    return return_result;
+}
+
+int main_menu_cmd_processing(char *cmd, node **head, char *filename){
+    int   cmd_result = 0;
+
+    cmd_result = execute_main_menu_entered_cmd (cmd, head, filename);
+    if      (cmd_result == WRONG_CMD_ENTERED) return WRONG_CMD_ENTERED;
+    else if (cmd_result == CMD_EXEC_WRONG) return CMD_EXEC_WRONG;
+    else     return NO_ERROR;
+}
+
+int main_app_loop (node **head, char *filename_for_list_data){
+    int   entered_str_size      = 5;
+    char *entered_str           = calloc (entered_str_size, sizeof (char));
+    int   character_from_stdin;
+    int   symbol_number         = 0;
+    int   return_result         = 0;
+
+    while (EOF != (character_from_stdin = getchar ())) {
+        if ('\n' != character_from_stdin ){
+            entered_str[symbol_number] = character_from_stdin;
+            symbol_number++;
+            if (symbol_number >= entered_str_size) {
+                error_handler (CMD_TOO_LONG, NON_CRITICAL);
+                custom_fflush_stdin ();
+                entered_str[0] = '\0';
+                symbol_number = 0;
+                printf ("Enter command: ");
+            }
+        } else {
+            entered_str[symbol_number] = '\0';
+            symbol_number = 0;
+            return_result = main_menu_cmd_processing(entered_str,
+                                                     head,
+                                                     filename_for_list_data);
+            if (return_result) error_handler (return_result, NON_CRITICAL);
+            printf ("Enter command: ");
+        }
+    } /* while EOF != getchar ()*/
+    return MAIN_LOOP_ERROR;
+}
+
 void
 custom_fflush_stdin (){
 	int c;

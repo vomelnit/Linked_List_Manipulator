@@ -8,7 +8,7 @@ inline void
 error_handler (error_handle_t error, bool is_error_critical) {
 
     if (is_error_critical) printf("\033[31;1m"); /*Red color*/
-    else printf("\033[33;1m"); /*Yellow color*/
+    else printf("\033[33;1m");                   /*Yellow color*/
     printf ("ERROR HANDLER::");
 
     switch (error) {
