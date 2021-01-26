@@ -40,33 +40,108 @@ typedef struct node
     struct node *next;  /**< ptr on next linked list's element. */
 } node;
 
-//Print list items into stdout
+/** @brief Print list items into stdout
+ *
+ *  @param head pointer to top of linked list.
+ *  @return NO_ERROR (0) if func was executed.
+ */
 int     print_list                      (node *head);
-//Insert item at begin
+
+/** @brief Insert person's data at top of linked list
+ *
+ *  @param head pointer to top of linked list.
+ *  @param id person identificator.
+ *  @param years age of person.
+ *  @param name pointer to char array with person's name.
+ *  @return NO_ERROR (0) if func was executed.
+ */
 int     insert_first_to_list            (node **head,
                                          int id,
                                          int years,
                                          char *name);
-//Delete first item
+
+/** @brief Delete person's data at the top of linked list
+ *
+ *  Pay attention that memory (of returned struct)
+ *  must be deallocated manually. If list is empty - func will return NULL.
+ *  Hint: before this func is_list_empty() should be called.
+ *
+ *  @param head pointer to pointer to top of linked list.
+ *  @return node struct that was deleted from list.
+ *  If list is empty - return NULL
+ */
 node*   delete_and_get_first_in_list    (node **head);
-//Check of list emptiness
+
+/** @brief Check of linked list emptiness
+ *
+ *  @param head pointer to top of linked list.
+ *  @return TRUE (1) if list is empty. Else - FALSE (0)
+ */
 bool    is_list_empty                   (node *head);
-//Get length of list
+
+/** @brief Get length of linked list
+ *
+ *  @param head pointer to top of linked list.
+ *  @return Amount of list's elements
+ */
 int     get_list_length                 (node *head);
-//Find a link with given id
+
+/** @brief Get element of list by id
+ *
+ *  Pay attention that: if list is empty - func will return NULL.
+ *  If there is no element with entered id - func will return NULL.
+ *
+ *  @param head pointer to top of linked list.
+ *  @param id identificator of element (person).
+ *  @return node struct that was has entered id. If not found - return NULL
+ */
 node*   get_node_by_id                  (node *head,
                                          int id);
-//Delete a link with given id
+/** @brief Delete a link with given id
+ *
+ *  Pay attention that: if list is empty - func will return NULL.
+ *  If there is no element with entered id - func will return NULL.
+ *  Memory (of returned struct) must be deallocated manually.
+ *
+ *  @param head pointer to pointer to top of linked list.
+ *  @param id identificator of element (person).
+ *  @return node struct that was deleted by entered id.
+ *  Or NULL - if didn't found
+ */
 node*   delete_and_get_node_by_id       (node **head,
                                          int id);
-//Sort sist
+
+/** @brief Sort linked list by entered field of struct
+ *
+ *  @param head pointer to top of linked list.
+ *  @param sort_by list_sort_by value that will point by which field list
+ *  must be sorted.
+ *  @return NO_ERROR(0) - if func was executed correctly. Else - more than zero.
+ */
 int     sort_list                       (node *head,
                                          int sort_by);
-//Reverse the list
+
+/** @brief Reverse order in the linked list
+ *
+ *  @param head pointer to pointer to top of linked list.
+ *  @return NO_ERROR(0) - if func was executed correctly. Else - more than zero.
+ */
 int     reverse_list                    (node** head_ref);
-//Get linked list elemnts as char**
+
+/** @brief Get linked list elements as char**
+ *
+ *  Format of each element "(%d,%d,%s)\r\n"
+ *
+ *  @param head pointer to top of linked list.
+ *  @return char array of arrays for each element of list.
+ */
 char**  get_list_as_string_array        (node *head);
 
+/** @brief Delete linked list and free memory of list
+ *
+ *  @param head pointer to top of linked list.
+ *  @return NO_ERROR(0) - if func was executed correctly.
+ */
 int     delete_entire_list              (node *head);
 
 #endif  /* LINKED_LIST_H */

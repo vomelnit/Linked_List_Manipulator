@@ -54,6 +54,18 @@ typedef enum {
     CRITICAL = 1        /**< For errors. */
 } is_critical_t;
 
+/** @brief Handle errors and warnings during prog execution
+ *
+ *  Enter number of error from error_handle_t enum.
+ *  Set if this error is critical. Func will print msg
+ *  that will point out what was wrong acording to error number.
+ *  If error is crirtical - then func will stop the program via exit().
+ *  If error is not not critical - func will print out warning only.
+ *
+ *  @param error error_handle_t error that was executed.
+ *  @param is_error_critical Specify if program must be shutdowned.
+ *  @return Void.
+ */
 void  error_handler  (error_handle_t error,
                       bool is_error_critical);
 

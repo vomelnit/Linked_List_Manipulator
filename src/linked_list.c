@@ -14,7 +14,6 @@ print_list (node *head) {
         current_node = current_node->next;
     }
     printf ("============\n");
-
     return NO_ERROR;
 }
 
@@ -53,8 +52,10 @@ insert_first_to_list (node **head, int id, int years, char *name) {
 inline node*
 delete_and_get_first_in_list (node **head) {
     //save reference to first link
-    if (NULL == *head)
+    if (NULL == *head){
         error_handler (LINKED_LIST_IS_EMPTY, NON_CRITICAL);
+        return NULL;
+    }
     node *tempLink = *head;
     //mark next to first link as first
     *head = tempLink->next;
@@ -74,7 +75,6 @@ get_list_length (node *head) {
     node *current;
 
     for (current = head; current != NULL; current = current->next) length++;
-
     return length;
 }
 
@@ -225,6 +225,5 @@ get_list_as_string_array (node *head){
         ptr = ptr->next;
         i++;
     }
-
     return row_arr;
 }

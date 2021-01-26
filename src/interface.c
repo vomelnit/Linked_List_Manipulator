@@ -210,6 +210,10 @@ execute_main_menu_entered_cmd(char *entered_str, node **head, char *filename){
             break;
 
         case DELETE_ELEMENT_FROM_TOP: {
+            if (is_list_empty(*head)) {
+                printf("List is empty\n");
+                break;
+            }
             node *deleted_node = delete_and_get_first_in_list (head);
             printf ("Deleted value:");
             printf ("(%d,%d,%s)\n",
