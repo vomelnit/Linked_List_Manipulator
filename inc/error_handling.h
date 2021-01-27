@@ -1,11 +1,21 @@
 #ifndef ERROR_HANDLING_H
 #define ERROR_HANDLING_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /****************************************************************************
 *   INCLUDES
 ****************************************************************************/
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+// #ifdef __cplusplus
+// }
+// #endif
 /****************************************************************************
 *   DECLARATIONS
 ****************************************************************************/
@@ -67,6 +77,10 @@ typedef enum {
  *  @return Void.
  */
 void  error_handler  (error_handle_t error,
-                      bool is_error_critical);
+                      is_critical_t is_error_critical);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ERROR_HANDLING_H */

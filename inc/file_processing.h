@@ -1,6 +1,10 @@
 #ifndef FILE_PROCESSING_H
 #define FILE_PROCESSING_H
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 /****************************************************************************
 *   INCLUDES
 ****************************************************************************/
@@ -8,6 +12,7 @@
 #include <unistd.h>
 
 #include "linked_list.h"
+#include "error_handling.h"
 /****************************************************************************
  *  DEFINES
  ****************************************************************************/
@@ -24,7 +29,7 @@ typedef enum {FALSE = 0, TRUE} boolean;
  *  @param filename name of file to open.
  *  @return NO_ERROR (0) if func was executed correctly. Else - more than zero.
  */
-int       create_file_for_linked_list           (char  *filename);
+error_handle_t       create_file_for_linked_list           (char  *filename);
 
 /** @brief Open file <filename> and create linked list according to it's data.
  *
@@ -32,7 +37,7 @@ int       create_file_for_linked_list           (char  *filename);
  *  @param head pointer to pointer to linked list top.
  *  @return NO_ERROR (0) if func was executed correctly. Else - more than zero.
  */
-int       init_linked_list_from_file            (char  *filename,
+error_handle_t       init_linked_list_from_file            (char  *filename,
                                                  node **head);
 
 /** @brief Get filename of linked list data.
@@ -55,12 +60,12 @@ char*     get_filename_for_list_data            (int    argc,
  */
 bool      is_file_exist                         (char  *filename);
 
-/** @brief Get size of file <filename>.
- *
- *  @param filename name of file to open.
- *  @return size of file in bytes
- */
-long int  get_size_of_file                      (char  *filename);
+// /** @brief Get size of file <filename>.
+//  *
+//  *  @param filename name of file to open.
+//  *  @return size of file in bytes
+//  */
+// long int  get_size_of_file                      (char  *filename);
 
 /** @brief Write to file <filename_for_list_data> rows <row_arr> and close it.
  *
@@ -69,7 +74,7 @@ long int  get_size_of_file                      (char  *filename);
  *  @param row_arr_size number of rows in row_arr.
  *  @return NO_ERROR (0) if func was executed correctly. Else - more than zero.
  */
-int       put_list_arr_into_file                (char  *filename_for_list_data,
+error_handle_t       put_list_arr_into_file                (char  *filename_for_list_data,
                                                  char **row_arr,
                                                  int    row_arr_size);
 
@@ -82,7 +87,7 @@ int       put_list_arr_into_file                (char  *filename_for_list_data,
  *  @param head pointer to the top of linked list.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int       save_list_to_file                     (char  *filename_for_list_data,
+error_handle_t       save_list_to_file                     (char  *filename_for_list_data,
                                                  node  *head);
 
 /** @brief Get strings of data for list from file.
@@ -134,7 +139,11 @@ bool      check_if_row_values_match             (char **values);
  *  @param rows pointer to array of strings from file.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int       convert_rows_to_linked_list           (node **head,
+error_handle_t       convert_rows_to_linked_list           (node **head,
                                                  char **rows);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* FILE_PROCESSING_H */

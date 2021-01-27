@@ -3,12 +3,14 @@
 *   INCLUDES
 ****************************************************************************/
 #include "interface.h"
+#include "error_handling.h"
 
 int
 main (int argc, char *argv[]) {
-    node  *head = NULL;
-    int    return_result = 0;
-    char * filename_for_list_data = get_filename_for_list_data(argc, argv);
+    node             *head = NULL;
+    error_handle_t    return_result;
+
+    char *filename_for_list_data = get_filename_for_list_data(argc, argv);
 
     if (is_file_exist (filename_for_list_data)) {
         return_result = init_linked_list_from_file (filename_for_list_data,&head);
@@ -23,5 +25,5 @@ main (int argc, char *argv[]) {
     return_result = main_app_loop(&head, filename_for_list_data);
     if (return_result) error_handler(return_result, CRITICAL);
 
-  exit(EXIT_FAILURE);
+    return (UNKNOWN_ERROR);
 }

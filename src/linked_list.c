@@ -3,7 +3,7 @@
 ****************************************************************************/
 #include "linked_list.h"
 
-inline int
+inline error_handle_t
 print_list (node *head) {
     node *current_node = head;
     printf ("\n====LIST====\n");
@@ -17,7 +17,7 @@ print_list (node *head) {
     return NO_ERROR;
 }
 
-int
+error_handle_t
 delete_entire_list (node *head) {
     node *current_node = head;
     node *node_to_deallocate;
@@ -29,7 +29,7 @@ delete_entire_list (node *head) {
     return NO_ERROR;
 }
 
-int
+error_handle_t
 insert_first_to_list (node **head, int id, int years, char *name) {
     //create a link
     node *link = (node*) malloc (sizeof(struct node));
@@ -37,7 +37,7 @@ insert_first_to_list (node **head, int id, int years, char *name) {
         error_handler (MEMORY_ALLOCATION_ERR, CRITICAL);
     link->id = id;
     link->years = years;
-    link->name = malloc (strlen(name));
+    link->name = (char*) malloc (strlen(name));
     if (link->name == NULL)
         error_handler (MEMORY_ALLOCATION_ERR, CRITICAL);
     strcpy (link->name, name);
@@ -132,7 +132,7 @@ delete_and_get_node_by_id (node **head, int id) {
     return current;
 }
 
-int
+error_handle_t
 sort_list (node *head, int sort_by) {
     int  i;
     int  j;
@@ -185,7 +185,7 @@ sort_list (node *head, int sort_by) {
     return NO_ERROR;
 }
 
-int
+error_handle_t
 reverse_list (node** head_ref) {
     node* prev    = NULL;
     node* current = *head_ref;
@@ -211,14 +211,14 @@ get_list_as_string_array (node *head){
     node *ptr      = head;
     int  i         = 0;
     char row[200];
-    char **row_arr = malloc (sizeof (char*) * size);
+    char **row_arr = (char**) malloc (sizeof (char*) * size);
 
     if (NULL == row_arr)
         error_handler (MEMORY_ALLOCATION_ERR, CRITICAL);
     //start from the beginning
     while (NULL != ptr) {
         sprintf (row, "(%d,%d,%s)\r\n",ptr->id,ptr->years,ptr->name);
-        row_arr[i] = malloc (strlen (row) + 1);
+        row_arr[i] = (char*) malloc (strlen (row) + 1);
         if (NULL == row_arr[i])
             error_handler (MEMORY_ALLOCATION_ERR, CRITICAL);
         strcpy (row_arr[i], row);

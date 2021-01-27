@@ -4,9 +4,9 @@
 ****************************************************************************/
 #include "interface.h"
 
-int
+error_handle_t
 print_intial_info(node * head){
-    int return_result = 0;
+    error_handle_t return_result;
     printf ("Current List:");
     return_result = print_list (head);
     printf ("\nEnter 'h' or 'help' to see command interface.\n");
@@ -15,8 +15,9 @@ print_intial_info(node * head){
     return return_result;
 }
 
-int main_menu_cmd_processing(char *cmd, node **head, char *filename){
-    int   cmd_result = 0;
+error_handle_t
+main_menu_cmd_processing(char *cmd, node **head, char *filename){
+    error_handle_t   cmd_result;
 
     cmd_result = execute_main_menu_entered_cmd (cmd, head, filename);
     if      (cmd_result == WRONG_CMD_ENTERED) return WRONG_CMD_ENTERED;
@@ -24,12 +25,14 @@ int main_menu_cmd_processing(char *cmd, node **head, char *filename){
     else     return NO_ERROR;
 }
 
-int main_app_loop (node **head, char *filename_for_list_data){
-    int   entered_str_size      = 5;
-    char *entered_str           = calloc (entered_str_size, sizeof (char));
-    int   character_from_stdin;
-    int   symbol_number         = 0;
-    int   return_result         = 0;
+error_handle_t
+main_app_loop (node **head, char *filename_for_list_data){
+    int              entered_str_size      = 5;
+    int              symbol_number         = 0;
+    error_handle_t   return_result;
+    int              character_from_stdin;
+
+    char *entered_str = (char*) calloc (entered_str_size, sizeof (char));
 
     while (EOF != (character_from_stdin = getchar ())) {
         if ('\n' != character_from_stdin ){
@@ -81,7 +84,7 @@ print_help_info () {
 
 void
 exit_routine (char *filename, node *head){
-    int result = 0;
+    error_handle_t result;
     result = save_list_to_file (filename, head);
     if (result) error_handler(UNKNOWN_ERROR, CRITICAL);
     printf ("List was saved into file '%s'.\n", filename);
@@ -92,12 +95,12 @@ exit_routine (char *filename, node *head){
     exit (EXIT_SUCCESS);
 }
 
-int
+error_handle_t
 insert_entered_row_to_linked_list(node **head, char *row){
-    int result = 0;
+    error_handle_t result;
     if (row == NULL) return CMD_EXEC_WRONG;
     if ( (row[0] != '(') ||
-       ((strstr(row, ")\r\n") - row) != strlen(row)-3)) {
+       ((strstr(row, ")\r\n") - row) != (int) strlen(row)-3)) {
         error_handler(ROW_DISMATCH_PATTERN, NON_CRITICAL);
         return ROW_DISMATCH_PATTERN;
     }
@@ -115,12 +118,13 @@ insert_entered_row_to_linked_list(node **head, char *row){
     return NO_ERROR;
 }
 
-int
+error_handle_t
 insert_element_into_list_routine(node **head){
     int   character;
+    error_handle_t result;
     int   entered_row_size = 200;
     int   symbol_number    = 0;
-    char *entered_row      = calloc(entered_row_size, sizeof(char));
+    char *entered_row      = (char*) calloc(entered_row_size, sizeof(char));
 
     printf ("Enter row using format (id,years,name):\n");
 
@@ -141,17 +145,17 @@ insert_element_into_list_routine(node **head){
 
     entered_row[symbol_number] = '\r';
     entered_row[symbol_number+1] = '\n';
-    int result = insert_entered_row_to_linked_list (head, entered_row);
+    result = insert_entered_row_to_linked_list (head, entered_row);
     free (entered_row);
     return result;
 }
 
-int
+error_handle_t
 get_id_and_find_element_by_id (node **head) {
     int   character;
     int   entered_row_size = 10;
     int   symbol_number    = 0;
-    char *entered_row      = calloc(entered_row_size, sizeof(char));
+    char *entered_row      = (char*) calloc(entered_row_size, sizeof(char));
 
     if (NULL == entered_row) error_handler(MEMORY_ALLOCATION_ERR, CRITICAL);
 
@@ -183,9 +187,9 @@ get_id_and_find_element_by_id (node **head) {
     return NO_ERROR;
 }
 
-int
+error_handle_t
 execute_main_menu_entered_cmd(char *entered_str, node **head, char *filename){
-    int result = 0;
+    error_handle_t result;
 
     if( (0 == strcmp(entered_str,"help")) ||
         (0 == strcmp(entered_str,"h"))) {

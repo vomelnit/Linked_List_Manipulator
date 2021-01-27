@@ -1,10 +1,14 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /****************************************************************************
 *   INCLUDES
 ****************************************************************************/
 #include "file_processing.h"
+#include "error_handling.h"
 /****************************************************************************
 *   DECLARATIONS
 ****************************************************************************/
@@ -31,7 +35,7 @@ enum Menu_commands{
  *  @param head pointer to the top of linked list.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int   print_intial_info                 (node  *head);
+error_handle_t   print_intial_info                 (node  *head);
 
 /** @brief Processing of entered command in menu
  *
@@ -40,7 +44,7 @@ int   print_intial_info                 (node  *head);
  *  @param filename pointer to filename string.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int   main_menu_cmd_processing          (char  *cmd,
+error_handle_t   main_menu_cmd_processing          (char  *cmd,
                                          node **head,
                                          char  *filename);
 
@@ -50,7 +54,7 @@ int   main_menu_cmd_processing          (char  *cmd,
  *  @param filename_for_list_data pointer to filename string.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int   main_app_loop                     (node **head,
+error_handle_t   main_app_loop                     (node **head,
                                          char  *filename_for_list_data);
 
 /** @brief fflush stdin till '\n' character
@@ -80,7 +84,7 @@ void  exit_routine                      (char  *filename,
  *  @param row pointer to row string.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int  insert_entered_row_to_linked_list  (node **head,
+error_handle_t  insert_entered_row_to_linked_list  (node **head,
                                          char  *row);
 
 /** @brief Get row from stdin and add it to list
@@ -88,14 +92,14 @@ int  insert_entered_row_to_linked_list  (node **head,
  *  @param head pointer to pointer the top of linked list.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int  insert_element_into_list_routine   (node **head);
+error_handle_t  insert_element_into_list_routine   (node **head);
 
 /** @brief Get id from stdin and print full element data
  *
  *  @param head pointer to pointer the top of linked list.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int  get_id_and_find_element_by_id      (node **head);
+error_handle_t  get_id_and_find_element_by_id      (node **head);
 
 /** @brief Check entered command and react on it
  *
@@ -103,8 +107,12 @@ int  get_id_and_find_element_by_id      (node **head);
  *  @param head pointer to pointer the top of linked list.
  *  @return NO_ERROR (0) if func was executed correctly.
  */
-int  execute_main_menu_entered_cmd      (char  *entered_str,
+error_handle_t  execute_main_menu_entered_cmd      (char  *entered_str,
                                          node **head,
                                          char  *filename);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* INTERFACE_H */

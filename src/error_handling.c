@@ -5,7 +5,7 @@
 #include "error_handling.h"
 
 inline void
-error_handler (error_handle_t error, bool is_error_critical) {
+error_handler (error_handle_t error, is_critical_t is_error_critical) {
 
     if (is_error_critical) printf("\033[31;1m"); /*Red color*/
     else printf("\033[33;1m");                   /*Yellow color*/

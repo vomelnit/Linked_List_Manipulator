@@ -1,6 +1,9 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /****************************************************************************
 *   INCLUDES
 ****************************************************************************/
@@ -9,7 +12,6 @@
 #include <string.h>
 
 #include "error_handling.h"
-
 /****************************************************************************
 *   DECLARATIONS
 ****************************************************************************/
@@ -45,7 +47,7 @@ typedef struct node
  *  @param head pointer to top of linked list.
  *  @return NO_ERROR (0) if func was executed.
  */
-int     print_list                      (node *head);
+error_handle_t     print_list                      (node *head);
 
 /** @brief Insert person's data at top of linked list
  *
@@ -55,7 +57,7 @@ int     print_list                      (node *head);
  *  @param name pointer to char array with person's name.
  *  @return NO_ERROR (0) if func was executed.
  */
-int     insert_first_to_list            (node **head,
+error_handle_t     insert_first_to_list            (node **head,
                                          int id,
                                          int years,
                                          char *name);
@@ -118,7 +120,7 @@ node*   delete_and_get_node_by_id       (node **head,
  *  must be sorted.
  *  @return NO_ERROR(0) - if func was executed correctly. Else - more than zero.
  */
-int     sort_list                       (node *head,
+error_handle_t     sort_list                       (node *head,
                                          int sort_by);
 
 /** @brief Reverse order in the linked list
@@ -126,7 +128,7 @@ int     sort_list                       (node *head,
  *  @param head pointer to pointer to top of linked list.
  *  @return NO_ERROR(0) - if func was executed correctly. Else - more than zero.
  */
-int     reverse_list                    (node** head_ref);
+error_handle_t     reverse_list                    (node** head_ref);
 
 /** @brief Get linked list elements as char**
  *
@@ -142,6 +144,10 @@ char**  get_list_as_string_array        (node *head);
  *  @param head pointer to top of linked list.
  *  @return NO_ERROR(0) - if func was executed correctly.
  */
-int     delete_entire_list              (node *head);
+error_handle_t     delete_entire_list              (node *head);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif  /* LINKED_LIST_H */
