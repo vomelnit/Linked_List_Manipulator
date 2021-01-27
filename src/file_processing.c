@@ -5,7 +5,7 @@
 #include "file_processing.h"
 
 char*
-get_filename_for_list_data(int argc, char **argv){
+get_filename_for_list_data(int argc, char *argv[]){
     char *filename_for_list_data =  (char*) calloc (FILENAME_MAX_LENGTH,
                                                     sizeof(char));
 
