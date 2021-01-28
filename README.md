@@ -14,7 +14,11 @@ sudo apt-get install libgtest-dev
 ```bash
 make
 ```
-3. Execute program
+4. Build test script (require <qtest/gtest.h>)
+```bash
+make test
+```
+5. Execute program
 ```bash
 ./bin/program
 ```
