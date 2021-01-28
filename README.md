@@ -18,7 +18,11 @@ make
 ```bash
 make test
 ```
-5. Execute program
+5. Execute tests
+```bash
+./bin/tests
+```
+6. Execute program
 ```bash
 ./bin/program
 ```
